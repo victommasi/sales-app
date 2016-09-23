@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/DefaultLayout">
+	
+<head>
+
+</head>
+<body>
+
+<section layout:fragment="content">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>
+						Pesquisa de clientes
+					</h1>
+				</div>
+			
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a th:href="@{customer/new}" class="btn btn-success">
+							<i class="fa fa-lg fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Novo cliente</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+
+		<form method="get" class="form-vertical  js-form-loading">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label>Nome </label>
+						<div class="form-inline">
+							<input type="text" class="form-control  aw-form-control-inline-sm" placeholder=""/>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label>Telefone</label>
+						<div class="form-inline">
+							<input type="text" class="form-control  aw-form-control-inline-sm" placeholder=""/>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<button class="btn  btn-success" type="submit">
+					Pesquisar
+				</button>
+			</div>
+	
+		</form>
+	
+		<div class="row  aw-datatable-toolbar">
+			<div class="col-xs-8">
+				<div class="btn-group">
+				  <button type="button" class="btn  btn-default  btn-sm  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				    <i class="fa fa-lg  fa-filter  visible-md-inline  visible-lg-inline"></i> <span>Filtrar</span>
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" role="menu">
+				    <li><a th:href="@{/customer/negociating}">Clientes em negociação</a></li>
+				    <li><a th:href="@{/customer/accepted}">Clientes aceitos </a></li>
+				    <li><a th:href="@{/customer/refused}">Clientes recusados</a></li>
+				    <li><a th:href="@{/customer}">TODOS OS CLIENTES</a></li>
+				  </ul>
+				</div>
+				
+				<div class="btn-group">
+				  <button type="button" class="btn  btn-default  btn-sm  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				    <i class="fa fa-lg  fa-share  visible-md-inline  visible-lg-inline"></i> <span>Exportar</span>
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" role="menu">
+				    <li><a href="#">Para Email</a></li>
+				    <li><a href="#">Para SMS</a></li>
+				  </ul>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="table-responsive">
+			<table id="table-customers" class="table  table-striped  table-bordered  table-hover  table-condensed  js-sticky-table">
+				<thead class="aw-table-header-solid">
+					<tr>
+						<th class="aw-table-checkbox">
+						</th>
+						<th class="text-center"> Cod.</th>
+						<th class="text-center"> Nome</th>
+						<th class="text-center"> Telefone</th>
+						<th class="text-center"> Assunto</th>
+						<th class="text-center"> Status</th>
+						<th class="text-center"> Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr th:each="customer : ${customers}">
+							<td class="aw-table-checkbox"><input type="checkbox" /></td>
+							<td th:text="${customer.code}">Codigo</td>
+							<td th:text="${customer.name}">Nome</td>
+							<td th:text="|085 ${customer.phone}|">Telefone</td>
+							<td th:text="${customer.note}">Descrição</td>
+							<td th:text="${customer.status.desc}">Status</td>
+							<td class="table-pesq-produto-col-acoes">
+								<div class="btn-group">
+									<a th:href="@{'/customer/{id}'(id=${customer.id})}"
+										class="btn  btn-default btn-xs"> <i
+										class="fa fa-lg  fa-pencil"> </i> Editar
+									</a>
+									<button type="button"
+										th:onclick="'getCustomerId(\'' + ${customer.id} + '\');'"
+										class="btn-modal btn  btn-default btn-xs">
+										<i class="fa fa-lg  fa-check" style="color: #5cb85c;"> </i>
+										Fechar venda
+									</button>
+									<!-- modal -->
+									<div id="saleModal" class="modal fade" role="dialog">
+										<div class="modal-dialog">
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header" style="background-color: #5cb85c;">
+													<button id="btn-close" type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title" style="color: white;">Confirmação de Venda</h4>
+												</div>
+												<form id="sale-form">
+													<div class="modal-body">
+														<!-- edit -->
+														<div class="form-group">
+															<div class="row ">
+																<div class="col-sm-8 col-lg-offset-2 form-group">
+																	<label for="name">Nome do cliente</label> 
+																	<input id="name" name="name" type="text" class="form-control" />
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-sm-4 col-lg-offset-4 form-group">
+																	<label for="price">Valor do plano</label> 
+																	<input id="price" name="price" type="text" class="form-control"	placeholder="R$" />
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-sm-4 col-lg-offset-4 form-group">
+																	<label for="date">Data de venda</label> 
+																	<input id="date" name="date" type="text" class="form-control" placeholder="dd/MM/aaaa" />
+																</div>
+															</div>
+														</div>
+														<!-- /edit -->
+													</div>
+													<div class="modal-footer">
+														<button id="btn-save" type="submit"	class="btn btn-success" data-dismiss="">Confirmar</button>
+														<button id="btn-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<!-- /modal -->
+								</div>
+							</td>
+						</tr>
+						<tr th:if="${customers.empty}">
+						<td colspan="6">Nenhum cliente a apresentar</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+<th:block layout:fragment="modalscript">
+<script>
+
+var customerId;
+
+function getCustomerId(id){
+	customerId = id;
+}
+
+function addCsrfToken(xhr){
+	var header = $('input[name=_csrf_header]').val();
+	var token = $('input[name=_csrf]').val();
+	xhr.setRequestHeader(header, token);
+}
+
+$(document).on("click", ".btn-modal", (function(){
+	var host = "http://localhost:8080";
+	var id = customerId;
+	
+	//clear form/modal
+	$("#sale-form").validate().resetForm();
+    $('#name').closest('.form-group').removeClass('has-error');
+	$('#price').closest('.form-group').removeClass('has-error');
+	$('#date').closest('.form-group').removeClass('has-error');
+	
+	$.ajax({
+	    url: host + "/customer/name/" + id,
+	    type: 'GET',
+	    success: function (result) {
+			$("#name").val(result);
+			$("#price").val("");
+			$("#date").val("");
+			$("#saleModal").modal();
+	   	}
+	})
+}));
+
+$("#sale-form").validate({
+	rules: {
+		name: {
+		    required: true
+		},
+        price: {
+            required: true,
+            number: true
+        },
+        date: {
+        	required: true
+        }
+    },
+	messages: {
+		name: "O nome é obrigatório",
+        price: "O valor é obrigatório",
+        date: "A data é obrigatória"
+	},
+	submitHandler: function (form) {
+		var name = $('#name').val();
+		var price = $('#price').val();
+		var date = $("#date").val();
+		var id = customerId;
+		var host = "http://localhost:8080";
+		
+		$("#btn-save").prop("disabled", true);
+		
+		var data = {
+				sale : {
+						price: price,
+						date: date
+				},
+				customer : {
+						id: id,
+						name: name
+				}
+		};
+		var json = JSON.stringify(data);
+		
+	   	$.ajax({
+	   	    url: host + "/sale/new",
+	   	    type: 'POST',
+	   	    contentType: "application/json; charset=utf-8",
+	   	    data: json,
+	   	    beforeSend: addCsrfToken,
+	   	    success: function (results) {
+	   	    	$("#btn-save").prop("disabled", false);
+	   	    	$("#saleModal").modal('toggle');
+	   	    	$("#saleModal").on("hidden.bs.modal", function () {
+					location.reload();
+	   	    	});
+	   	   	}
+	   	})
+		return false; // required to block normal submit since you used ajax
+    },
+    highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+    },
+    unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+    },
+    errorElement: 'span',
+    errorClass: 'help-block',
+    errorPlacement: function(error, element) {
+        if(element.parent('.input-group').length) {
+            error.insertAfter(element.parent());
+        } else {
+            error.insertAfter(element);
+        }
+    }
+	
+});
+
+$(function() {
+	 $("#date").datepicker({
+	    dateFormat: 'yy-mm-dd',
+	    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+	    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+	    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+	    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+	    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+	    nextText: 'Próximo',
+	    prevText: 'Anterior'
+	});
+});
+ 
+</script>
+</th:block>
+
+</body>
+</html>
+

@@ -1,0 +1,126 @@
+	@RequestMapping
+	public ModelAndView list() {
+		ModelAndView mv = new ModelAndView("/customer/List");
+		mv.addObject("customers", customers.findAll());
+		return mv;
+	}
+	
+		/*@RequestMapping("/new")
+	public ModelAndView newCustomer(Customer customer) {
+		ModelAndView mv = new ModelAndView("/customer/customer_creation");
+		mv.addObject("status", Status.values());
+		return mv;
+	}*/
+	
+		/*@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) throws Exception {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	}*/
+	
+--------------------------------------------------------------	
+
+	<input type="hidden" name="_method" value="put"></input>
+---------------------------------------------------------------------
+
+	th:onclick="'getPropId(\'' + ${customer.id} + '\');'"
+	
+--------------------------------------------------------	
+	@RequestMapping("/{id}")
+	public ModelAndView createSale2(@PathVariable("id") Integer id){
+		ModelAndView mv = new ModelAndView("/sale/sale_creation");
+		Customer customer = customerRepository.findOne(id);
+		mv.addObject("customer", customer);
+		return mv;
+	}
+	----------------------------------------------------------------
+	
+	@RequestMapping(value = "/sale/{id}", method = RequestMethod.PUT)
+	public ModelAndView updateCustomerForSale(@PathVariable("id") Integer id, 
+								   			  @RequestBody String name) {
+		
+		Status status = Status.ACCEPTED;
+		Customer customer = customerRepository.findOne(id);
+		
+		if (!customer.getStatus().equals("ACCEPTED")){
+			customer.setStatus(status);
+		}
+		customer.setName(name);
+		customerService.saveCustomer(customer);
+		return new ModelAndView("redirect:/customer");
+	}
+	
+--------------------------------------------------------	           
+	//Stops the submit request
+	/*$("#saleModal").submit(function(e){
+	        e.preventDefault();
+	 });*/
+ 
+	//1
+
+	$.ajax({
+	    url: host + "/customer/sale/" + id,
+	    type: 'PUT',
+	    contentType: "application/json; charset=utf-8",
+	    data: name,
+	    success: function (results) {
+	   
+	   	}
+	})
+	---------------------------------------------------------
+	
+	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer() {
+		return (container -> 
+		container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404"),
+								new ErrorPage(HttpStatus.BAD_REQUEST, "/500"),
+								new ErrorPage(HttpStatus.FORBIDDEN, "/403")));
+	}
+	
+	
+	
+	-----------------------------------------------
+	
+	
+	
+/*$("#btn-save").click(function(event) {
+	var name = $('#name').val();
+	var price = $('#price').val();
+	var date = $("#date").val();
+	var id = customerId;
+	
+	$("#btn-save").prop("disabled", true);
+	
+	var data = {
+			sale : {
+					price: price,
+					date: date
+			},
+			customer : {
+					id: id,
+					name: name
+			}
+	};
+	var json = JSON.stringify(data);
+	
+	console.log(data);
+	console.log(json);
+
+	
+   	$.ajax({
+   	    url: host + "/sale/new",
+   	    type: 'POST',
+   	    contentType: "application/json; charset=utf-8",
+   	    data: json,
+   	    beforeSend: addCsrfToken,
+   	    success: function (results) {
+   	    	$("#btn-save").prop("disabled", false);
+   	    	$("#saleModal").modal('toggle');
+   	    	$("#saleModal").on("hidden.bs.modal", function () {
+				location.reload();
+   	    	});
+   	   	}
+   	})
+});*/
+
+
+--------------------------------------------------

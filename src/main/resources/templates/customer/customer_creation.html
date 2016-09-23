@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/DefaultLayout">
+
+<body>
+<section layout:fragment="content">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1>
+				Cadastro de clientes
+			</h1>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+	
+		<div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(message)}" >
+			<button type="button" class="close" data-dismiss="alert" ><span aria-hidden="true">&times;</span></button>
+			<span th:text="${message}"></span>
+		</div>
+	
+		<form method="POST" th:object="${customer}" class="form-vertical  js-form-loading" th:action="@{/customer/new}">
+			
+			<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<th:block th:each="erro : ${#fields.detailedErrors()}">
+					<div>
+						<i class="fa  fa-exclamation-circle"></i> 
+						<span th:text="${erro.message}">Já existe um cliente com o telefone informado.</span>
+					</div>
+				</th:block>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('code')} ? has-error">
+					<label for="code">Código</label>
+					<input id="code" type="text" class="form-control" th:field="*{code}"/>
+				</div>
+				
+				<div class="col-sm-5 form-group" th:classappend="${#fields.hasErrors('name')} ? has-error">
+					<label for="name">Nome</label>
+					<input id="name" type="text" class="form-control" th:field="*{name}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-3 form-group" th:classappend="${#fields.hasErrors('phone')} ? has-error">
+					<div class="form-group">
+						<label for="phone">Telefone</label>
+						<input id="phone" type="text" class="form-control" placeholder="" th:field="*{phone}"/>
+					</div>
+				</div>
+				<!--  
+				<div class="col-sm-4">
+					<div class="form-group" th:classappend="${#fields.hasErrors('price')} ? has-error">
+						<label for="price">Valor</label>
+						<input id="price" type="text" class="form-control" placeholder="R$" th:field="*{price}"/>
+					</div>
+				</div>
+				-->
+				<div class="col-sm-5">
+					<div class="form-group" th:classappend="${#fields.hasErrors('status')} ? has-error">
+						<label for="status">Status</label>
+						<select id="status" class="form-control" th:field="*{status}">
+							<option value=""> Selecione o status </option>
+							<option th:each="statu : ${status}" th:value="${statu}" th:text="${statu.desc}"> </option>
+						</select> 
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group" th:classappend="${#fields.hasErrors('note')} ? has-error">
+				<label for="note">Descrição</label>
+				<textarea id="note" rows="3" class="form-control" th:field="*{note}"></textarea>
+			</div>
+			
+			<div class="form-group">
+				<button class="btn  btn-success" type="submit">Salvar</button>
+				<a th:href="@{/customer}" class="btn  btn-default">Voltar</a>
+			</div>
+		</form>
+	</div>
+
+</section>
+</body>
+</html>

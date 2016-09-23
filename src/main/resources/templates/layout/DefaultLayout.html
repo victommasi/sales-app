@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<title>Escritório Jevi</title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/jquery-ui.css}"/>
+	
+	
+</head>
+<body>
+
+<input type="hidden" name="_csrf_header" th:value="${_csrf.headerName}"/>
+<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+<div class="aw-layout-page">
+	
+	<nav class="navbar  navbar-fixed-top  navbar-default  js-sticky-reference" id="main-navbar" style="background-color: #5cb85c; border-bottom-color: #fff;">
+	  <div class="container-fluid" >
+
+	    <div class="navbar-header">
+	      <a style="margin-left: 25px;" class="navbar-brand  hidden-xs" th:href="@{/home}">
+	        <img alt="Jevi"  th:src="@{/layout/images/logo-jevi-white.png}"/>
+	      </a>
+
+	      <ul class="nav  navbar-nav">
+	        <li>
+	          <a href="#" style="margin-left: 30px;" class="js-sidebar-toggle"><i class="fa fa-lg fa-bars"></i></a>
+	        </li>
+	      </ul>
+	    </div>
+
+	    <ul class="nav navbar-nav  navbar-right">
+	    
+	      <li class="dropdown">
+	           <p class="navbar-text" th:text="${#authentication.name}"></p>    
+	      </li>
+	      
+	      
+	      <li>
+	        <a th:href="@{/logout}"><em class="fa fa-lg fa-sign-out"></em></a>
+	      </li> 
+	    </ul>
+
+	  </div>
+	</nav>
+	
+	<aside class="aw-layout-sidebar  js-sidebar">
+		<div class="aw-layout-sidebar__content">
+	
+	    	<nav class="aw-menu  js-menu">
+	      		<ul class="aw-menu__list">
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/home}">
+          				<i class="fa  fa-lg  fa-home"></i>
+          				<span>Página inicial</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/customer}">
+          				<i class="fa  fa-lg  fa-user"></i>
+          				<span>Clientes</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/customer/new}">
+          				<i class="fa  fa-lg  fa-plus-circle"></i>
+          				<span>Cadastrar cliente</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/sale}">
+          				<i class="fa  fa-lg  fa-money"></i>
+          				<span>Vendas</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/finance}">
+          				<i class="fa  fa-lg  fa-bar-chart"></i>
+          				<span>Balanço</span>
+          			</a>
+	        		</li>
+	      	</ul>
+	    	</nav>
+		</div>
+	</aside>
+	
+	<section class="aw-layout-content js-content" layout:fragment="content"></section>
+ 
+	<footer class="aw-layout-footer  js-content">
+		<div class="container-fluid">
+			<span class="aw-footer-disclaimer">&copy; 2016 Algaworks. Todos os direitos reservados.</span>
+		</div>
+	</footer>
+</div>
+
+<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
+<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+<script th:src="@{/layout/vendors/jquery/jquery-ui.js}"></script>
+<script th:src="@{/layout/vendors/jquery/jquery.validate.min.js}"></script>
+
+<th:block layout:fragment="modalscript"></th:block>
+
+</body>
+</html>
