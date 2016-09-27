@@ -1,6 +1,7 @@
 package com.victommasi.controller;
 
 
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +21,9 @@ import com.victommasi.model.Customer;
 import com.victommasi.model.Status;
 import com.victommasi.repository.CustomerRepository;
 import com.victommasi.service.CustomerService;
+import com.victommasi.service.EmailService;
+import com.victommasi.wrapper.EmailWrapper;
+import com.victommasi.wrapper.SmsWrapper;
 
 
 @Controller
@@ -31,10 +36,20 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	@RequestMapping
 	public ModelAndView getAllCustomers() {
 		ModelAndView mv = new ModelAndView("/customer/customer_list");
 		mv.addObject("customers", customerRepository.findAll());
+		return mv;
+	}
+	
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	public ModelAndView findByNameOrPhone(Customer customer){
+		ModelAndView mv = new ModelAndView("/customer/customer_list");
+		mv.addObject("customers", customerRepository.findByNameOrPhone(customer));
 		return mv;
 	}
 	
@@ -87,11 +102,18 @@ public class CustomerController {
 		return new ModelAndView("redirect:/customer");
 	}
 	
+	@ResponseBody
 	@RequestMapping("/name/{id}")
-	public @ResponseBody String getCustomerName(@PathVariable("id") Integer id){
+	public String getCustomerName(@PathVariable("id") Integer id){
 		Customer customer = customerRepository.findOne(id);
 		String name = customer.getName();
 		return name;
+	}
+	
+	@RequestMapping(value = "/email", method = RequestMethod.POST)
+	public ResponseEntity<?> exportToEmail(@RequestBody EmailWrapper emailWrapper){
+		emailService.exportToEmail(emailWrapper);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

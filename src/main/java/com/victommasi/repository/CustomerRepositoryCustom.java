@@ -14,4 +14,6 @@ public interface CustomerRepositoryCustom {
 	public List<Customer> findByStatusAccepted();
 	
 	public List<Customer> findByStatusRefused();
+	
+	public List<Customer> findByNameOrPhone(Customer customer);
 }

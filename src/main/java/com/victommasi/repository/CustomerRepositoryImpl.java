@@ -15,6 +15,17 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 
 	@PersistenceContext
 	EntityManager manager;
+	
+	@Override
+	public List<Customer> findByNameOrPhone(Customer customer) {
+		String jpql = "select c from Customer c where c.name like :name "
+					+ "and c.phone like :phone";
+		return this.manager
+				.createQuery(jpql, Customer.class)
+				.setParameter("name", "%" + customer.getName() + "%")
+				.setParameter("phone", "%" + customer.getPhone() + "%")
+				.getResultList();
+	}
 
 	@Override
 	public List<Customer> findByStatusNegociating() {

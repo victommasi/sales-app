@@ -23,7 +23,7 @@
 				<div class="col-xs-2">
 					<div class="aw-page-header-controls">
 						<a th:href="@{customer/new}" class="btn btn-success">
-							<i class="fa fa-lg fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Novo cliente</span>
+							<i class="fa fa-lg fa-user-plus"></i> <span class="hidden-xs  hidden-sm">Novo cliente</span>
 						</a>
 					</div>
 				</div>
@@ -33,13 +33,13 @@
 
 	<div class="container-fluid">
 
-		<form method="get" class="form-vertical  js-form-loading">
+		<form method="GET" th:object="${customer}" th:action="@{/customer/find}" class="form-vertical  js-form-loading">
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label>Nome </label>
 						<div class="form-inline">
-							<input type="text" class="form-control  aw-form-control-inline-sm" placeholder=""/>
+							<input id="name" name="name" type="text" class="form-control  aw-form-control-inline-sm" placeholder=""/>
 						</div>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 					<div class="form-group">
 						<label>Telefone</label>
 						<div class="form-inline">
-							<input type="text" class="form-control  aw-form-control-inline-sm" placeholder=""/>
+							<input id="phone" name="phone" type="text" class="form-control  aw-form-control-inline-sm" placeholder=""/>
 						</div>
 					</div>
 				</div>
@@ -61,11 +61,59 @@
 					Pesquisar
 				</button>
 			</div>
-	
 		</form>
 	
 		<div class="row  aw-datatable-toolbar">
 			<div class="col-xs-8">
+			
+			<!-- modal EMAIL -->
+				<div id="emailModal" class="modal fade" role="dialog">
+				  <div class="modal-dialog">
+				    <!-- Modal content-->
+				    <div class="modal-content">
+					     <div class="modal-header" style="background-color:#5cb85c;">
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					        <h4 class="modal-title" style="color:white;"> Exportar para Email</h4>
+					      </div>
+					      <div class="modal-body">
+					      <!-- edit -->
+							<div class="form-group">
+								<div class="row ">
+									<div class="col-sm-8 col-lg-offset-2 form-group">
+										<label for="emailModal_email"> Email: </label> 
+										<input id="emailModal_email" name="emailModal_email" type="text" class="form-control"/>
+									</div>
+								</div>
+							</div>
+					     <!-- /edit -->
+					      </div>
+					      <div class="modal-footer">
+					        <button id="emailModal_btn_send" class="btn btn-success" data-dismiss="modal">Enviar</button>
+					      	<button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					      </div>
+				    </div>
+				  </div>
+				</div>
+				<!-- /modal EMAIL-->
+				
+				<!-- modal EMAIL confirmation-->
+				<div id="emailSentModal" class="modal fade" role="dialog">
+				  <div class="modal-dialog">
+				    <!-- Modal content-->
+				    <div class="modal-content">
+					      <div class="modal-body">
+							<div class="row">
+								<h2 style="text-align: center;">Email enviado com sucesso!</h2>
+							</div>
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-save" type="submit" class="btn btn-success" data-dismiss="modal">OK</button>
+					      </div>
+				    </div>
+				  </div>
+				</div>
+			<!-- /modal EMAIL confirmation-->
+			
 				<div class="btn-group">
 				  <button type="button" class="btn  btn-default  btn-sm  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				    <i class="fa fa-lg  fa-filter  visible-md-inline  visible-lg-inline"></i> <span>Filtrar</span>
@@ -78,18 +126,15 @@
 				    <li><a th:href="@{/customer}">TODOS OS CLIENTES</a></li>
 				  </ul>
 				</div>
-				
 				<div class="btn-group">
 				  <button type="button" class="btn  btn-default  btn-sm  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				    <i class="fa fa-lg  fa-share  visible-md-inline  visible-lg-inline"></i> <span>Exportar</span>
 				    <span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu" role="menu">
-				    <li><a href="#">Para Email</a></li>
-				    <li><a href="#">Para SMS</a></li>
+				    <li><a href="#" id="btn_email" data-toggle="modal" data-target="#emailModal">Para Email</a></li>
 				  </ul>
 				</div>
-				
 			</div>
 		</div>
 		
@@ -109,10 +154,10 @@
 				</thead>
 				<tbody>
 						<tr th:each="customer : ${customers}">
-							<td class="aw-table-checkbox"><input type="checkbox" /></td>
+							<td class="aw-table-checkbox"><input type="checkbox" class="ids" name="ids[]" th:value="${customer.id}"/></td>
 							<td th:text="${customer.code}">Codigo</td>
 							<td th:text="${customer.name}">Nome</td>
-							<td th:text="|085 ${customer.phone}|">Telefone</td>
+							<td th:text="|85 ${customer.phone}|">Telefone</td>
 							<td th:text="${customer.note}">Descrição</td>
 							<td th:text="${customer.status.desc}">Status</td>
 							<td class="table-pesq-produto-col-acoes">
@@ -127,7 +172,28 @@
 										<i class="fa fa-lg  fa-check" style="color: #5cb85c;"> </i>
 										Fechar venda
 									</button>
-									<!-- modal -->
+									<!-- modal confirm?-->
+										<div id="confirmationModal" class="modal fade" role="dialog">
+										  <div class="modal-dialog">
+										    <!-- Modal content-->
+										    <div class="modal-content">
+											      <div class="modal-body">
+											      <!-- edit -->
+													<div>
+															<h4>Já existe uma venda para esse cliente. 
+															Você deseja fechar uma nova venda?</h4>
+													</div>
+											     <!-- /edit -->
+											      </div>
+											      <div class="modal-footer">
+											        <button id="btn-new" type="submit" class="btn btn-success" data-dismiss="modal">OK</button>
+											        <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+											      </div>
+										    </div>
+										  </div>
+										</div>
+									<!-- /modal confirm?-->
+									<!-- modal SALE -->
 									<div id="saleModal" class="modal fade" role="dialog">
 										<div class="modal-dialog">
 											<!-- Modal content-->
@@ -142,8 +208,8 @@
 														<div class="form-group">
 															<div class="row ">
 																<div class="col-sm-8 col-lg-offset-2 form-group">
-																	<label for="name">Nome do cliente</label> 
-																	<input id="name" name="name" type="text" class="form-control" />
+																	<label for="_name">Nome do cliente</label> 
+																	<input id="_name" name="_name" type="text" class="form-control" />
 																</div>
 															</div>
 															<div class="row">
@@ -169,7 +235,7 @@
 											</div>
 										</div>
 									</div>
-									<!-- /modal -->
+									<!-- /modal SALE-->
 								</div>
 							</td>
 						</tr>
@@ -181,130 +247,9 @@
 		</div>
 	</div>
 </section>
+
 <th:block layout:fragment="modalscript">
-<script>
-
-var customerId;
-
-function getCustomerId(id){
-	customerId = id;
-}
-
-function addCsrfToken(xhr){
-	var header = $('input[name=_csrf_header]').val();
-	var token = $('input[name=_csrf]').val();
-	xhr.setRequestHeader(header, token);
-}
-
-$(document).on("click", ".btn-modal", (function(){
-	var host = "http://localhost:8080";
-	var id = customerId;
-	
-	//clear form/modal
-	$("#sale-form").validate().resetForm();
-    $('#name').closest('.form-group').removeClass('has-error');
-	$('#price').closest('.form-group').removeClass('has-error');
-	$('#date').closest('.form-group').removeClass('has-error');
-	
-	$.ajax({
-	    url: host + "/customer/name/" + id,
-	    type: 'GET',
-	    success: function (result) {
-			$("#name").val(result);
-			$("#price").val("");
-			$("#date").val("");
-			$("#saleModal").modal();
-	   	}
-	})
-}));
-
-$("#sale-form").validate({
-	rules: {
-		name: {
-		    required: true
-		},
-        price: {
-            required: true,
-            number: true
-        },
-        date: {
-        	required: true
-        }
-    },
-	messages: {
-		name: "O nome é obrigatório",
-        price: "O valor é obrigatório",
-        date: "A data é obrigatória"
-	},
-	submitHandler: function (form) {
-		var name = $('#name').val();
-		var price = $('#price').val();
-		var date = $("#date").val();
-		var id = customerId;
-		var host = "http://localhost:8080";
-		
-		$("#btn-save").prop("disabled", true);
-		
-		var data = {
-				sale : {
-						price: price,
-						date: date
-				},
-				customer : {
-						id: id,
-						name: name
-				}
-		};
-		var json = JSON.stringify(data);
-		
-	   	$.ajax({
-	   	    url: host + "/sale/new",
-	   	    type: 'POST',
-	   	    contentType: "application/json; charset=utf-8",
-	   	    data: json,
-	   	    beforeSend: addCsrfToken,
-	   	    success: function (results) {
-	   	    	$("#btn-save").prop("disabled", false);
-	   	    	$("#saleModal").modal('toggle');
-	   	    	$("#saleModal").on("hidden.bs.modal", function () {
-					location.reload();
-	   	    	});
-	   	   	}
-	   	})
-		return false; // required to block normal submit since you used ajax
-    },
-    highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
-    },
-    unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error');
-    },
-    errorElement: 'span',
-    errorClass: 'help-block',
-    errorPlacement: function(error, element) {
-        if(element.parent('.input-group').length) {
-            error.insertAfter(element.parent());
-        } else {
-            error.insertAfter(element);
-        }
-    }
-	
-});
-
-$(function() {
-	 $("#date").datepicker({
-	    dateFormat: 'yy-mm-dd',
-	    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-	    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-	    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-	    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-	    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-	    nextText: 'Próximo',
-	    prevText: 'Anterior'
-	});
-});
- 
-</script>
+	<script th:src="@{layout/javascripts/customer-list.js}"></script>
 </th:block>
 
 </body>

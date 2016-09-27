@@ -3,10 +3,10 @@ package com.victommasi.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.victommasi.Wrapper.ObjectWrapper;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Sale;
 import com.victommasi.repository.SaleRepository;
+import com.victommasi.wrapper.ObjectWrapper;
 
 @Service
 public class SaleService {

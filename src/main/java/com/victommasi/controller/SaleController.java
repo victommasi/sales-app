@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.victommasi.Wrapper.ObjectWrapper;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Sale;
 import com.victommasi.repository.CustomerRepository;
 import com.victommasi.repository.SaleRepository;
 import com.victommasi.service.CustomerService;
 import com.victommasi.service.SaleService;
+import com.victommasi.wrapper.ObjectWrapper;
 
 @Controller
 @RequestMapping("/sale")
@@ -40,12 +41,26 @@ public class SaleController {
 		return mv;
 	}
 	
+	@RequestMapping("/find")
+	public ModelAndView getSaleByCustomerNameOrPhone(Customer customer){
+		ModelAndView mv = new ModelAndView("/sale/sale_list");
+		Sale sale = new Sale();
+		sale.setCustomer(customer);
+		mv.addObject("sales", saleRepository.findByNameOrPhone(sale));
+		return mv;
+	}
+	
+	@RequestMapping("/find/{id}")
+	public ResponseEntity<?> getSaleByCustomerId(@PathVariable("id") Integer id){
+		return new ResponseEntity<>(saleRepository.findById(id), HttpStatus.OK);
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ResponseEntity<?> createSale(@RequestBody ObjectWrapper objectWrapper) {
-		
+	public ModelAndView createSale(@RequestBody ObjectWrapper objectWrapper) {
 		customerService.updateCustomer(objectWrapper);
 		saleService.saveSale(objectWrapper);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ModelAndView("redirect:/customer");
 	}
 	
 	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)

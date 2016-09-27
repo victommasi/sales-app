@@ -1,5 +1,6 @@
 package com.victommasi.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,6 +11,17 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	@Value("${loginUserJ}")
+	private String loginJ;
+	
+	@Value("${loginUserV}")
+	private String loginV;
+	
+	@Value("${passwordUserJ}")
+	private String passJ;
+	
+	@Value("${passwordUserV}")
+	private String passV;
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -37,10 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.inMemoryAuthentication()
-				.withUser("jessica").password("8764")
+				.withUser(loginJ).password(passJ)
 				.roles("")
 			.and()
-				.withUser("victor").password("asas")
+				.withUser(loginV).password(passV)
 				.roles("");
 	} 
 	

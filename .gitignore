@@ -5,6 +5,8 @@ Servers/*
 .classpath
 .project
 target/
+src/main/resources/application.properties
+src/main/resources/temp.txt
 bin/
 rebel.xml
 .mvn*
