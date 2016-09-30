@@ -1,9 +1,9 @@
-var host = "http://localhost:8080";
 var customerId;
+//var host = "http://localhost:8080";
 
 function getSaleId(id){
-	customerId = id;
 	$("#confirmationModal").modal();
+	customerId = id;
 }
 
 function addCsrfToken(xhr){
@@ -14,8 +14,9 @@ function addCsrfToken(xhr){
 
 $("#btn-delete").click(function(){
 	$("#btn-delete").prop("disabled", true);
+	
 	$.ajax({
-	    url: host + "/sale/" + customerId,
+	    url: "/sale/" + customerId,
 	    type: 'DELETE',
 	    beforeSend: addCsrfToken,
 	    success: function (result) {

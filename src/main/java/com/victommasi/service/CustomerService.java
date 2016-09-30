@@ -33,8 +33,10 @@ public class CustomerService {
 		customerRepository.save(customer);
 	}
 	
-	public void deleteCustomer(Integer id) {
-		customerRepository.delete(id);
+	public void deleteCustomers(Integer[] ids) {
+		for(Integer id : ids){
+			customerRepository.delete(id);
+		}
 	}
 
 }

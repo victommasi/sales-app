@@ -113,7 +113,26 @@
 				  </div>
 				</div>
 			<!-- /modal EMAIL confirmation-->
-			
+			<!-- modal DELETE confirmation-->
+				<div id="deleteModal" class="modal fade" role="dialog">
+				  <div class="modal-dialog">
+				    <!-- Modal content-->
+				    <div class="modal-content">
+					      <div class="modal-body">
+					      <!-- edit -->
+							<div class="row">
+									<h3 style="text-align: center;">Tem certeza que deseja excluir esse(s) cliente()?</h3>
+							</div>
+					     <!-- /edit -->
+					      </div>
+					      <div class="modal-footer">
+					        <button id="deleteModal_btn_delete" name="deleteModal_btn-delete" class="btn btn-danger" >Excluir</button>
+					        <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					      </div>
+				    </div>
+				  </div>
+				</div>
+			<!-- /modal DELETE confirmation-->
 				<div class="btn-group">
 				  <button type="button" class="btn  btn-default  btn-sm  dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				    <i class="fa fa-lg  fa-filter  visible-md-inline  visible-lg-inline"></i> <span>Filtrar</span>
@@ -132,7 +151,14 @@
 				    <span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu" role="menu">
-				    <li><a href="#" id="btn_email" data-toggle="modal" data-target="#emailModal">Para Email</a></li>
+				    <li>
+				    	<a href="#" data-toggle="modal" data-target="#emailModal">Para Email
+				    	</a> 
+				    </li>
+				    <li>
+					    <a href="#" data-toggle="modal" data-target="#deleteModal">Para Lixeira
+					    </a>
+				    </li>
 				  </ul>
 				</div>
 			</div>
@@ -162,9 +188,8 @@
 							<td th:text="${customer.status.desc}">Status</td>
 							<td class="table-pesq-produto-col-acoes">
 								<div class="btn-group">
-									<a th:href="@{'/customer/{id}'(id=${customer.id})}"
-										class="btn  btn-default btn-xs"> <i
-										class="fa fa-lg  fa-pencil"> </i> Editar
+									<a th:href="@{'/customer/{id}'(id=${customer.id})}"	class="btn  btn-default btn-xs"> 
+										<i class="fa fa-lg  fa-pencil"> </i> Editar
 									</a>
 									<button type="button"
 										th:onclick="'getCustomerId(\'' + ${customer.id} + '\');'"
@@ -249,7 +274,7 @@
 </section>
 
 <th:block layout:fragment="modalscript">
-	<script th:src="@{layout/javascripts/customer-list.js}"></script>
+	<script th:src="@{/layout/javascripts/customer-list.js}"></script>
 </th:block>
 
 </body>

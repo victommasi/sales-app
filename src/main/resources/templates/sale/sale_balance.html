@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/DefaultLayout">
+	
+<body>
+
+<section layout:fragment="content">
+
+	<div class="page-header">
+			<div class="row">
+				<div class="col-xs-10">
+					<h2>
+					</h2>
+				</div>
+			</div>
+	</div>
+	
+	<div id="chartContainer" style="height: 300px; width: 100%;">
+	
+	</div>
+	<div class="container-fluid">
+	
+		<div class="row">
+			<div class="col-sm-2 pull-right">
+				<div class="form-group pull-right">
+					<label> Alterar ano</label>
+					<div>
+						<button id="btn_prevyear" class="btn btn-default" type="submit">
+							<i class="fa fa-1x  fa-chevron-left"> </i>
+						</button>
+						<button id="btn_nextyear" class="btn btn-default" type="submit">
+							<i class="fa fa-1x  fa-chevron-right"> </i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<h4 id="totalLabel">Faturamento de </h4>
+					<h5 id="totalValue"> </h5>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<h4 id="averageLabel">Média de </h4>
+					<h5 id="averageValue"> </h5>
+				</div>
+			</div>
+		</div>
+		
+		<hr></hr>
+		
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<h3>Faturamento total</h3>
+					<h5 th:text="|R$ ${balance.total}|"> </h5>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<h3>Média mensal total</h3>
+					<h5 th:text="|R$ ${balance.average}|"> </h5>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="chartscript">
+	<script th:src="@{/layout/javascripts/sale-balance.js}"></script>
+</th:block>
+
+</body>
+</html>

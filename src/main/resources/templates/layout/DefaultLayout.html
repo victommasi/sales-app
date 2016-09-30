@@ -89,7 +89,7 @@
 	        		</li>
 	        		
 	        		<li class="aw-menu__item">
-          			<a th:href="@{/finance}">
+          			<a th:href="@{/sale/balance}">
           				<i class="fa  fa-lg  fa-bar-chart"></i>
           				<span>Balanço</span>
           			</a>
@@ -103,7 +103,7 @@
  
 	<footer class="aw-layout-footer  js-content">
 		<div class="container-fluid">
-			<span class="aw-footer-disclaimer">&copy; 2016 Algaworks. Todos os direitos reservados.</span>
+			<span class="aw-footer-disclaimer">&copy; 2016 Jevi. Todos os direitos reservados.</span>
 		</div>
 	</footer>
 </div>
@@ -112,8 +112,10 @@
 <script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
 <script th:src="@{/layout/vendors/jquery/jquery-ui.js}"></script>
 <script th:src="@{/layout/vendors/jquery/jquery.validate.min.js}"></script>
+<script th:src="@{/layout/vendors/jquery/jquery.canvasjs.min.js}"></script>
 
 <th:block layout:fragment="modalscript"></th:block>
+<th:block layout:fragment="chartscript"></th:block>
 
 </body>
 </html>

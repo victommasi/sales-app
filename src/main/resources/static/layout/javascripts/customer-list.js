@@ -1,5 +1,5 @@
 var customerId;
-var host = "http://localhost:8080";
+//var host = "http://localhost:8080";
 
 function getCustomerId(id){
 	customerId = id;
@@ -27,7 +27,7 @@ $("#emailModal_btn_send").click(function() {
 	var json = JSON.stringify(data);
 	
 	$.ajax({
-	    url: host + "/customer/email",
+	    url: "/customer/email",
 	    type: "post",
 	    contentType: "application/json; charset=utf-8",
 	    beforeSend: addCsrfToken,
@@ -41,6 +41,34 @@ $("#emailModal_btn_send").click(function() {
 	});
 });
 
+$("#deleteModal_btn_delete").click(function() {
+	console.log("chegou aqui");
+	var ids = [];
+	
+	$("input[name='ids[]']:checked").each(function () {
+		ids.push(parseInt($(this).val()));
+	});
+	
+	var json = JSON.stringify(ids);
+	
+	$("#deleteModal_btn_delete").prop("disabled", true);
+	
+	$.ajax({
+	    url: "/customer",
+	    type: "DELETE",
+	    contentType: "application/json; charset=utf-8",
+	    beforeSend: addCsrfToken,
+	    data: json,
+	    success: function(data) {
+	    	$("#deleteModal_btn-delete").prop("disabled", false);
+	    	$("#deleteModal").modal('toggle');
+	    	$("#deleteModal").on("hidden.bs.modal", function () {
+				location.reload();
+	    	});
+	    }
+	});
+});
+
 function openSaleModal(){
 	var id = customerId;
 	//clear form/modal
@@ -49,33 +77,24 @@ function openSaleModal(){
 	$('#price').closest('.form-group').removeClass('has-error');
 	$('#date').closest('.form-group').removeClass('has-error');
 	
-	$.ajax({
-	    url: host + "/customer/name/" + id,
-	    type: 'GET',
-	    success: function (result) {
+	$.get("/customer/name/" + id, function (result) {
 			$("#_name").val(result);
 			$("#price").val("");
 			$("#date").val("");
 			$("#saleModal").modal();
-	   	}
-	})
+	});
 }
 
 $(document).on("click", ".btn-modal", (function(){
 	
 	var id = customerId;
 	
-	$.ajax({
-	    url: host + "/sale/find/" + id,
-	    type: 'GET',
-	    success: function (result) {
-	    	console.log(result);
+	$.get("/sale/find/" + id, function (result) {
 	    	if (result) {
 	    		$("#confirmationModal").modal();
 	    	}
 	    	else openSaleModal();
-	   	}
-	})
+	});
 	
 	$("#btn-new").click(function(){
 		openSaleModal();
@@ -92,7 +111,8 @@ $("#sale-form").validate({
             number: true
         },
         date: {
-        	required: true
+        	required: true,
+        	date: true
         }
     },
 	messages: {
@@ -121,8 +141,8 @@ $("#sale-form").validate({
 		var json = JSON.stringify(data);
 		
 	   	$.ajax({
-	   	    url: host + "/sale/new",
-	   	    type: 'POST',
+	   	    url: "/sale/new",
+	   	    type: "POST",
 	   	    contentType: "application/json; charset=utf-8",
 	   	    data: json,
 	   	    beforeSend: addCsrfToken,

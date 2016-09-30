@@ -74,9 +74,9 @@ public class CustomerController {
 		return new ModelAndView("redirect:/customer/new");
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteCustomer(@PathVariable("id") Integer id){
-		customerService.deleteCustomer(id);
+	@RequestMapping(method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteCustomer(@RequestBody Integer[] ids){
+		customerService.deleteCustomers(ids);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

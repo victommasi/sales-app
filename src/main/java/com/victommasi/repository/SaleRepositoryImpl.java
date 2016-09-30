@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-
+ 
 import org.springframework.stereotype.Repository;
 
 import com.victommasi.model.Sale;
@@ -17,7 +16,7 @@ public class SaleRepositoryImpl implements SaleRepositoryCustom {
 	EntityManager manager;
 	
 	@Override
-	public List<Sale> findByNameOrPhone(Sale sale){
+	public List<Sale> findSaleByNameOrPhone(Sale sale){
 		String jpql = "SELECT s FROM Sale s JOIN s.customer c "
 					+ "where c.name like :name "
 					+ "and c.phone like :phone";
@@ -28,7 +27,7 @@ public class SaleRepositoryImpl implements SaleRepositoryCustom {
 	}
 
 	@Override
-	public boolean findById(Integer id) {
+	public boolean findSaleById(Integer id) {
 		String jpql = "SELECT s FROM Sale s JOIN s.customer c "
 				+ "where c.id = :id";
 		 List<Sale> query = manager.createQuery(jpql, Sale.class)
@@ -39,4 +38,25 @@ public class SaleRepositoryImpl implements SaleRepositoryCustom {
 		 }
 		return true;
 	}
+
+	@Override
+	public List<Sale> findSalesByYear(Integer year) {
+		String jpql = "SELECT s FROM Sale s WHERE YEAR(date) = :year";
+		List<Sale> list = manager.createQuery(jpql, Sale.class)
+			   .setParameter("year", year)
+			   .getResultList();
+		return list;
+	}
+	
+	@Override
+	public List<Sale> findSalesByMonthAndYear(Integer year, Integer month) {
+		String jpql = "SELECT s FROM Sale s WHERE MONTH(date) = :month "
+					+ "and YEAR(date) = :year";
+		List<Sale> list = manager.createQuery(jpql, Sale.class)
+			   .setParameter("month", month)
+			   .setParameter("year", year)
+			   .getResultList();
+		return list;
+	}
+
 }
