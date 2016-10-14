@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
 	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
 	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/jquery-ui.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/jquery.datatables.min.css}"/>
 	
 	
 </head>
@@ -63,7 +64,7 @@
 	        		<li class="aw-menu__item">
           			<a th:href="@{/home}">
           				<i class="fa  fa-lg  fa-home"></i>
-          				<span>Página inicial</span>
+          				<span>Início</span>
           			</a>
 	        		</li>
 	        		
@@ -113,6 +114,9 @@
 <script th:src="@{/layout/vendors/jquery/jquery-ui.js}"></script>
 <script th:src="@{/layout/vendors/jquery/jquery.validate.min.js}"></script>
 <script th:src="@{/layout/vendors/jquery/jquery.canvasjs.min.js}"></script>
+<script th:src="@{/layout/vendors/jquery/jquery.datatables.min.js}"></script>
+<!-- <script th:src="@{/layout/vendors/bootstrap/datatables.bootstrap.min.js}"></script>
+-->
 
 <th:block layout:fragment="modalscript"></th:block>
 <th:block layout:fragment="chartscript"></th:block>

@@ -18,7 +18,7 @@ public class DatapointService {
 	
 	private static Map<Integer, String> monthMap = new HashMap<Integer, String>();
 	
-	public static void populateMap(){
+	private static void populateMap(){
 		monthMap.put(1, "Janeiro");
 		monthMap.put(2, "Fevereiro");
 		monthMap.put(3, "Março");

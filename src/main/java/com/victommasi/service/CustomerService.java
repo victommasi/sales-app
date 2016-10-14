@@ -4,10 +4,10 @@ package com.victommasi.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.victommasi.dto.CustomObjectDTO;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Status;
 import com.victommasi.repository.CustomerRepository;
-import com.victommasi.wrapper.ObjectWrapper;
 
 @Service
 public class CustomerService {
@@ -19,7 +19,7 @@ public class CustomerService {
 		customerRepository.save(customer);
 	}
 
-	public void updateCustomer(ObjectWrapper objectWrapper){
+	public void updateCustomer(CustomObjectDTO objectWrapper){
 		Customer customerWrapper = objectWrapper.getCustomer();
 		Integer id = customerWrapper.getId();
 		String name = customerWrapper.getName();

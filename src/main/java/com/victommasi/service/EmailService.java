@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.victommasi.dto.EmailDTO;
 import com.victommasi.model.Customer;
 import com.victommasi.repository.CustomerRepository;
-import com.victommasi.wrapper.EmailWrapper;
 
 @Service
 public class EmailService {
@@ -30,8 +30,8 @@ public class EmailService {
 	@Autowired
 	CustomerRepository customerRepository;
 	
-	private String setEmailContent(EmailWrapper emailWrapper) {
-		Integer[] ids = emailWrapper.getIds();
+	private String setEmailContent(EmailDTO emailDto) {
+		Integer[] ids = emailDto.getIds();
 		StringBuffer content = new StringBuffer();
 		int cont = 1;
 		
@@ -52,8 +52,8 @@ public class EmailService {
 		return content.toString();
 	}
 	    
-	public void exportToEmail(EmailWrapper emailWrapper) {
-		String emailContent = setEmailContent(emailWrapper); 
+	public void exportToEmail(EmailDTO emailDto) {
+		String emailContent = setEmailContent(emailDto); 
 		
 		Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
@@ -70,13 +70,11 @@ public class EmailService {
         
         try {
         	 Message msg = new MimeMessage(session);
-        	 msg.setFrom(new InternetAddress("escritoriojevi@gmail.com"));
-        	 msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailWrapper.getEmail()));
+        	 msg.setFrom(new InternetAddress(username));
+        	 msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailDto.getEmail()));
         	 msg.setSubject("Clientes pendentes - JEVI");
         	 msg.setText(emailContent);
              Transport.send(msg);
-
-             System.out.println("Sent");
         }
         catch (MessagingException ex) {
              System.err.println(ex.getMessage());

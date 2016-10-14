@@ -1,7 +1,6 @@
 /*<![CDATA[*/
            
 var year = new Date().getFullYear();
-//var host = "http://localhost:8080";
          
 $(document).ready(function() {
 	showChart(year);

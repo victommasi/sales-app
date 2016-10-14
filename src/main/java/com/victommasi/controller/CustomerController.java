@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,6 @@ import com.victommasi.model.Customer;
 import com.victommasi.model.Status;
 import com.victommasi.repository.CustomerRepository;
 import com.victommasi.service.CustomerService;
-import com.victommasi.service.EmailService;
-import com.victommasi.wrapper.EmailWrapper;
-import com.victommasi.wrapper.SmsWrapper;
 
 
 @Controller
@@ -35,9 +33,6 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
-	
-	@Autowired
-	private EmailService emailService;
 	
 	@RequestMapping
 	public ModelAndView getAllCustomers() {
@@ -110,10 +105,23 @@ public class CustomerController {
 		return name;
 	}
 	
-	@RequestMapping(value = "/email", method = RequestMethod.POST)
-	public ResponseEntity<?> exportToEmail(@RequestBody EmailWrapper emailWrapper){
-		emailService.exportToEmail(emailWrapper);
-		return new ResponseEntity<>(HttpStatus.OK);
+	
+	@RequestMapping("/negociating")
+	public String getCustomersByStatusNegociating(Model model) {
+		model.addAttribute("customers", customerRepository.findByStatusNegociating());
+		return "/customer/customer_list";
+	}
+
+	@RequestMapping("/accepted")
+	public String getCustomersByStatusAccepted(Model model) {
+		model.addAttribute("customers", customerRepository.findByStatusAccepted());
+		return "/customer/customer_list";
+	}
+	
+	@RequestMapping("/refused")
+	public String getCustomersByStatusRefused(Model model) {
+		model.addAttribute("customers", customerRepository.findByStatusRefused());
+		return "/customer/customer_list";
 	}
 	
 }

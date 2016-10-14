@@ -81,7 +81,7 @@
 				  </div>
 				</div>
 			<!-- /modal confirm?-->
-			<table id="table-customers" class="table  table-striped  table-bordered  table-hover  table-condensed  js-sticky-table">
+			<table id="table-sales" class="table  table-striped  table-bordered  table-hover  table-condensed  js-sticky-table">
 				<thead class="aw-table-header-solid">
 					<tr class="text-center">
 						<th class="aw-table-checkbox">
@@ -97,7 +97,7 @@
 					<tr th:each="sale : ${sales}">
 						<td class="aw-table-checkbox"><input type="checkbox"/></td>
 						<td th:text="${sale.customer.name}"> Nome </td>
-						<td th:text="|085 ${sale.customer.phone}|"> Telefone </td>
+						<td th:text="|85 ${sale.customer.phone}|"> Telefone </td>
 						<td th:text="${sale.date}"> Data </td>
 						<td th:text="${sale.price}"> Valor </td>
 						<td class="table-pesq-produto-col-acoes">

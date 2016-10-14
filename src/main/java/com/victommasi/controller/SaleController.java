@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.victommasi.dto.CustomObjectDTO;
 import com.victommasi.model.Balance;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Sale;
 import com.victommasi.repository.SaleRepository;
 import com.victommasi.service.SaleService;
-import com.victommasi.wrapper.ObjectWrapper;
 
 @Controller
 @RequestMapping("/sale")
@@ -31,7 +31,6 @@ public class SaleController {
 	
 	@Autowired
 	SaleRepository saleRepository;
-	
 	
 	@RequestMapping
 	public ModelAndView getAllSales(){
@@ -56,8 +55,8 @@ public class SaleController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ModelAndView createSale(@RequestBody ObjectWrapper objectWrapper) {
-		saleService.saveSale(objectWrapper);
+	public ModelAndView createSale(@RequestBody CustomObjectDTO customObjectDto) {
+		saleService.saveSale(customObjectDto);
 		return new ModelAndView("redirect:/customer");
 	}
 	

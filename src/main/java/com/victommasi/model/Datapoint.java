@@ -4,14 +4,14 @@ public class Datapoint {
 	
 	private String label;
 	
-	private double x;
+	private float x;
 	
-	private double y;
+	private float y;
 	
 	
 	public Datapoint(){}
 	
-	public Datapoint(String label, double x, double y){
+	public Datapoint(String label, float x, float y){
 		this.label = label;
 		this.x = x;
 		this.y = y;
@@ -25,19 +25,19 @@ public class Datapoint {
 		this.label = label;
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 }

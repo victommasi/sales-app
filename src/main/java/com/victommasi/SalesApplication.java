@@ -1,16 +1,23 @@
 package com.victommasi;
 
-import org.flywaydb.core.Flyway;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-public class SalesApplication {
+//@EnableAutoConfiguration
+//@ComponentScan
+public class SalesApplication extends SpringBootServletInitializer {
+	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SalesApplication.class);
+    }
 
 	public static void main(String[] args) {
-		/*Flyway fw = new Flyway();
-		fw.setDataSource("jdbc:mysql://localhost/sales?useSSL=false","root","123456");
-		fw.repair();*/
 		SpringApplication.run(SalesApplication.class, args);
 	}
 }
