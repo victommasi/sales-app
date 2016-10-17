@@ -1,7 +1,5 @@
 package com.victommasi.controller;
 
-
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import com.victommasi.model.Customer;
 import com.victommasi.model.Status;
 import com.victommasi.repository.CustomerRepository;
 import com.victommasi.service.CustomerService;
-
 
 @Controller
 @RequestMapping("/customer")

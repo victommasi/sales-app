@@ -2,22 +2,22 @@ package com.victommasi.model;
 
 public class Balance {
 
-	private double total;
-	private double average;
+	private float total;
+	private float average;
 
-	public double getTotal() {
+	public float getTotal() {
 		return total;
 	}
 
-	public void setTotal(double total) {
+	public void setTotal(float total) {
 		this.total = total;
 	}
 
-	public double getAverage() {
+	public float getAverage() {
 		return average;
 	}
 
-	public void setAverage(double average) {
+	public void setAverage(float average) {
 		this.average = average;
 	}
 }

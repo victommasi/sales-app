@@ -8,8 +8,6 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-//@EnableAutoConfiguration
-//@ComponentScan
 public class SalesApplication extends SpringBootServletInitializer {
 	
 	@Override
