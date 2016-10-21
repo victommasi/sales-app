@@ -8,6 +8,8 @@ I used my development skills to make things easy for her and people who work wit
 
 Backend is Java 8 with Spring framework, frontend is jQuery, Thymeleaf and Bootstrap and the data is stored in a MySql database.
 
+DEMO: http://victommasi.tk/salesmanager
+
 # USAGE:
 After downloading or cloning the project, create an application.properties file on src/main/resources folder. An example context could be:
 
