@@ -1,5 +1,5 @@
 # sales-app
-Sale management system (SpringBoot, SpringSecurity, SpringDataJPA, Hibernate, Thymeleaf/jQuery,  Maven)
+Sale management system (SpringBoot, SpringMvc, SpringSecurity, SpringDataJPA, Hibernate, Thymeleaf/jQuery,  Maven)
 
 
 This application was resquested by a customer. She used to have a Google Sheet to manage her sales, but we decided to migrate her sheet to a better application adding some new features to it, like email reports and balance chart.
@@ -18,7 +18,5 @@ After downloading or cloning the project, create an application.properties file 
   spring.jpa.database=MYSQL
   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
   spring.jpa.hibernate.ddl-auto=update
-  .
-  .
   email and login requirements
   [...]
