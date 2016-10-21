@@ -1,8 +1,10 @@
 package com.victommasi.service;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.victommasi.dto.CustomObjectDTO;
 import com.victommasi.model.Customer;
@@ -14,6 +16,9 @@ public class CustomerService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	@Autowired
+	SaleService saleService;
 	
 	public void saveCustomer(Customer customer){
 		customerRepository.save(customer);
@@ -33,8 +38,10 @@ public class CustomerService {
 		customerRepository.save(customer);
 	}
 	
-	public void deleteCustomers(Integer[] ids) {
+	@Transactional
+	public void deleteCustomers(Integer[] ids) throws Exception {
 		for(Integer id : ids){
+			saleService.deleteSaleByCustomerId(id);
 			customerRepository.delete(id);
 		}
 	}

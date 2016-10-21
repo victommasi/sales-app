@@ -10,6 +10,8 @@ var showChart = function(yea){
 	$.get("/datapoint/" + yea, function (result) {
 		var dpoints = [];
 	    var yea = year;
+	    var total;
+	    var average;
 	 	
 	    for (var i = 0; i < result.length; i++) {
 		   dpoints.push({
@@ -41,7 +43,7 @@ var showChart = function(yea){
 	 	$("#averageLabel").html("<h4> Média mensal de " + yea + "</h4>");
 	 	$.get("/sale/" + yea, function (result) {
 	 		$("#totalValue").html("<h5> R$ " + result + " </h5>");
-	 		$("#averageValue").html("<h5> R$ " + result/12 + " </h5>");
+	 		$("#averageValue").html("<h5> R$ " + parseFloat((result/12).toFixed(2)) + " </h5>");
 	 	});
 	 	chart.render();
 	});

@@ -1,5 +1,4 @@
 var customerId;
-//var host = "http://localhost:8080";
 
 function getSaleId(id){
 	$("#confirmationModal").modal();
@@ -15,8 +14,10 @@ function addCsrfToken(xhr){
 $(document).ready(function() {
 	$('#table-sales').DataTable({
 		"searching": false,
-		"bJQueryUI": false,
-	     "oLanguage": {
+		//"scrollY": '50vh',
+		"scrollCollapse": true,
+		"autoWidth": false,
+	    "oLanguage": {
 	          "sProcessing":   "Processando...",
 	          "sLengthMenu":   "Mostrar _MENU_ registros",
 	          "sZeroRecords":  "Não foram encontrados resultados",

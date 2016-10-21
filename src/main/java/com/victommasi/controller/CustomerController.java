@@ -2,6 +2,7 @@ package com.victommasi.controller;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.victommasi.exception.ImpossibleDeleteCustomerException;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Status;
 import com.victommasi.repository.CustomerRepository;
@@ -30,6 +32,8 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	private static final Logger LOGGER = Logger.getLogger(Customer.class);
 	
 	@RequestMapping
 	public ModelAndView getAllCustomers() {
@@ -67,8 +71,14 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteCustomer(@RequestBody Integer[] ids){
-		customerService.deleteCustomers(ids);
+	public ResponseEntity<?> deleteCustomer(@RequestBody Integer[] ids) throws Exception{
+		try {
+			customerService.deleteCustomers(ids);
+			LOGGER.info("Customer removed.");
+		} catch (Exception e){
+			LOGGER.error("Got an error removing customer", e);
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -91,7 +101,7 @@ public class CustomerController {
 		
 		customerService.saveCustomer(customer);
 		attributes.addFlashAttribute("message", "Cliente atualizado com sucesso!");
-		return new ModelAndView("redirect:/customer");
+		return new ModelAndView("redirect:/customer/negociating");
 	}
 	
 	@ResponseBody

@@ -22,13 +22,15 @@ public class Customer {
 	
 	private Integer code;
 	
+	@Size (max=50, message="O nome não pode conter mais que 50 caracteres")
 	private String name;
 	
 	@NotBlank(message="Telefone é obrigatório")
-	@Size (min=9, message="Telefone tem que estar completo, com 9 na frente.")
+	@Size (min=9, message="O telefone tem que estar completo, com 9 na frente.")
 	private String phone;
 	
 	@NotBlank(message="Assunto é obrigatório")
+	@Size (max=250, message="O assunto não pode conter mais que 250 caracteres.")
 	private String note;
 	
 	@NotNull(message="Status é obrigatório")

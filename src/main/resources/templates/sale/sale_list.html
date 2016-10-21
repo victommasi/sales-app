@@ -60,18 +60,16 @@
 			<span th:text="${message}"></span>
 		</div>
 	
-		<div class="">
-		<!-- modal confirm?-->
+		<div class="table-responsive container-fluid">
+		<!-- modal sale delete confirmation-->
 				<div id="confirmationModal" class="modal fade" role="dialog">
 				  <div class="modal-dialog">
-				    <!-- Modal content-->
 				    <div class="modal-content">
 					      <div class="modal-body">
 					      <!-- edit -->
 							<div class="row">
 									<h3 style="text-align: center;">Tem certeza que deseja excluir essa venda?</h3>
 							</div>
-					     <!-- /edit -->
 					      </div>
 					      <div class="modal-footer">
 					        <button id="btn-delete" type="submit" class="btn btn-danger" data-dismiss="">Excluir</button>
@@ -80,22 +78,19 @@
 				    </div>
 				  </div>
 				</div>
-			<!-- /modal confirm?-->
+			<!-- /modal sale delete confirmation-->
 			<table id="table-sales" class="table  table-striped  table-bordered  table-hover  table-condensed  js-sticky-table">
 				<thead class="aw-table-header-solid">
 					<tr class="text-center">
-						<th class="aw-table-checkbox">
-						</th>
 						<th class="text-center"> Nome </th>
 						<th class="text-center"> Telefone </th>
 						<th class="text-center"> Data  </th>
 						<th class="text-center"> Valor </th>
 						<th class="text-center"> Ações </th>
-					</tr>
+					</tr>	
 				</thead>
 				<tbody>
 					<tr th:each="sale : ${sales}">
-						<td class="aw-table-checkbox"><input type="checkbox"/></td>
 						<td th:text="${sale.customer.name}"> Nome </td>
 						<td th:text="|85 ${sale.customer.phone}|"> Telefone </td>
 						<td th:text="${sale.date}"> Data </td>

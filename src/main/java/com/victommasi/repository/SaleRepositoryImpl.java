@@ -27,7 +27,7 @@ public class SaleRepositoryImpl implements SaleRepositoryCustom {
 	}
 
 	@Override
-	public boolean findSaleById(Integer id) {
+	public boolean checkSaleByCustomerId(Integer id) {
 		String jpql = "SELECT s FROM Sale s JOIN s.customer c "
 				+ "where c.id = :id";
 		 List<Sale> query = manager.createQuery(jpql, Sale.class)
@@ -55,6 +55,15 @@ public class SaleRepositoryImpl implements SaleRepositoryCustom {
 		List<Sale> list = manager.createQuery(jpql, Sale.class)
 			   .setParameter("month", month)
 			   .setParameter("year", year)
+			   .getResultList();
+		return list;
+	}
+	
+	@Override
+	public List<Sale> findSaleByCustomerId(Integer customerId) {
+		String jpql = "SELECT s FROM Sale s WHERE customer_id = :customerId";
+		List<Sale> list = manager.createQuery(jpql, Sale.class)
+			   .setParameter("customerId", customerId)
 			   .getResultList();
 		return list;
 	}

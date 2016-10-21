@@ -67,5 +67,15 @@ public class SaleService {
 		balance.setAverage(sum / sales.size());
 		return balance;
 	}
-	
+
+	public void deleteSaleByCustomerId(Integer id) {
+		if (saleRepository.checkSaleByCustomerId(id)) {
+			List<Sale> sales  = saleRepository.findSaleByCustomerId(id);
+				for(Sale s : sales){
+					int saleId = s.getId();
+					this.deleteSale(saleId);
+				}
+		}
+	}
+
 }

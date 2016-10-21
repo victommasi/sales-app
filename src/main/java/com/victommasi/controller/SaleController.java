@@ -49,7 +49,7 @@ public class SaleController {
 	
 	@RequestMapping("/find/{id}")
 	public ResponseEntity<?> getSaleByCustomerId(@PathVariable("id") Integer id){
-		return new ResponseEntity<>(saleRepository.findSaleById(id), HttpStatus.OK);
+		return new ResponseEntity<>(saleRepository.checkSaleByCustomerId(id), HttpStatus.OK);
 	}
 	
 

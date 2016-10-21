@@ -29,10 +29,17 @@ function openSaleModal(){
 
 $(document).ready(function() {
 	
+	$("#selectAll").click(function(){
+		$('input:checkbox').prop('checked', this.checked);
+    });
+	
 	$('#table-customers').DataTable({
 		"searching": false,
-		"bJQueryUI": false,
-	     "oLanguage": {
+		//"scrollY": '50vh',
+		"scrollCollapse": true,
+		"autoWidth": false,
+		"lengthMenu": [ 5, 15 , 25, 50, 100],
+        "oLanguage": {
 	          "sProcessing":   "Processando...",
 	          "sLengthMenu":   "Mostrar _MENU_ registros",
 	          "sZeroRecords":  "Não foram encontrados resultados",
@@ -54,7 +61,7 @@ $(document).ready(function() {
             	var id = customerId;
             	$.get("/sale/find/" + id, function (result) {
             	    	if (result) {
-            	    		$("#confirmationModal").modal();
+            	    		$("#SaleConfirmationModal").modal();
             	    	}
             	    	else openSaleModal();
             	});
@@ -154,7 +161,7 @@ $(document).ready(function() {
 		var ids = [];
 		var email = $("#emailModal_email").val();
 		
-		$("input[name='ids[]']:checked").each(function () {
+		$("input[name='checkBox[]']:checked").each(function () {
 			ids.push(parseInt($(this).val()));
 		});
 		
@@ -172,8 +179,8 @@ $(document).ready(function() {
 			beforeSend: addCsrfToken,
 			data: json,
 			success: function(data) {
-				$("#emailSentModal").modal();
-				$("#emailSentModal").on("hidden.bs.modal", function () {
+				$("#emailConfirmationModal").modal();
+				$("#emailConfirmationModal").on("hidden.bs.modal", function () {
 					location.reload();
 				});
 			}
@@ -183,7 +190,7 @@ $(document).ready(function() {
 	$("#deleteModal_btn_delete").click(function() {
 		var ids = [];
 		
-		$("input[name='ids[]']:checked").each(function () {
+		$("input[name='checkBox[]']:checked").each(function () {
 			ids.push(parseInt($(this).val()));
 		});
 		
