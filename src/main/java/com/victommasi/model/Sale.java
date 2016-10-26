@@ -1,6 +1,7 @@
 package com.victommasi.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -29,6 +31,7 @@ public class Sale {
 	@OneToOne
 	private Customer customer;
 	
+	//@DateTimeFormat(pattern = "dd/MM/yyyy")
 	//@Temporal(TemporalType.DATE)
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate date;

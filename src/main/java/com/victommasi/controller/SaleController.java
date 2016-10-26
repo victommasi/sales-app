@@ -1,6 +1,8 @@
 package com.victommasi.controller;
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import com.victommasi.dto.CustomObjectDTO;
 import com.victommasi.model.Balance;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Sale;
+import com.victommasi.repository.CustomerRepository;
 import com.victommasi.repository.SaleRepository;
 import com.victommasi.service.SaleService;
 
@@ -31,6 +34,9 @@ public class SaleController {
 	
 	@Autowired
 	SaleRepository saleRepository;
+	
+	@Autowired
+	CustomerRepository customerRepository;
 	
 	@RequestMapping
 	public ModelAndView getAllSales(){
@@ -52,7 +58,26 @@ public class SaleController {
 		return new ResponseEntity<>(saleRepository.checkSaleByCustomerId(id), HttpStatus.OK);
 	}
 	
-
+	/*
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ModelAndView createSale(@PathVariable Integer id, Sale sale) {
+		ModelAndView mv = new ModelAndView("/sale/sale_creation");
+		mv.addObject("customer", customerRepository.findOne(id));
+		return mv;
+	}
+	
+	@ResponseStatus(HttpStatus.CREATED)
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	public ModelAndView createSale(CustomObjectDTO customObjectDto) {
+		//saleService.saveSale(customObjectDto);
+		//System.out.println(sale);
+		//System.out.println(customer);
+		System.out.println(customObjectDto);
+		return new ModelAndView("redirect:/sale");
+	}
+	*/
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
 	public ModelAndView createSale(@RequestBody CustomObjectDTO customObjectDto) {

@@ -200,25 +200,25 @@
 													<button id="btn-close" type="button" class="close" data-dismiss="modal">&times;</button>
 													<h4 class="modal-title" style="color: white;">Confirmação de Venda</h4>
 												</div>
-												<form id="sale-form">
+												<form id="sale-form" class="sale-form">
 													<div class="modal-body">
 														<div class="form-group">
 															<div class="row well-sm">
 																<div class="col-md-8 col-lg-offset-2 form-group">
-																	<label for="_name">Nome do cliente</label> 
-																	<input id="_name" name="_name" type="text" class="form-control" />
+																	<label>Nome do cliente</label> 
+																	<input id="_name" name="_name" type="text" class="_name form-control" />
 																</div>
 															</div>
 															<div class="row  well-sm">
 																<div class="col-sm-8 col-lg-offset-2 form-group">
-																	<label for="price">Valor do plano</label> 
-																	<input id="price" name="price" type="text" class="form-control"	placeholder="R$" />
+																	<label>Valor do plano</label> 
+																	<input id="_price" name="_price" type="text" class="_price form-control"	placeholder="R$" />
 																</div>
 															</div>
 															<div class="row well-sm">
 																<div class="col-sm-8 col-lg-offset-2 form-group">
-																	<label for="date">Data de venda</label> 
-																	<input id="date" name="date" type="text" class="form-control" placeholder="aaaa-MM-dd" />
+																	<label>Data de venda</label> 
+																	<input id="_date" name="_date" type="text" class="_date form-control" placeholder="aaaa-MM-dd" />
 																</div>
 															</div>
 														</div>
@@ -244,7 +244,7 @@
 													</div>
 											      </div>
 											      <div class="modal-footer">
-											        <button id="btn-new" type="submit" class="btn btn-success" data-dismiss="modal">OK</button>
+											        <button id="btn-newSale" type="submit" class="btn btn-success" data-dismiss="modal">OK</button>
 											        <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 											      </div>
 										    </div>
