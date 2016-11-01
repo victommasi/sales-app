@@ -74,20 +74,22 @@
 					        <button type="button" class="close" data-dismiss="modal">&times;</button>
 					        <h4 class="modal-title" style="color:white;"> Exportar para Email</h4>
 					      </div>
-					      <div class="modal-body">
-						  <div class="form-group">
-							<div class="row ">
-								<div class="well-sm col-sm-8 col-lg-offset-2 form-group">
-									<label for="emailModal_email"> Email: </label> 
-									<input id="emailModal_email" name="emailModal_email" type="text" class="form-control"/>
+					      <form id="email-form" class="email-form">
+						      <div class="modal-body">
+							  <div class="form-group">
+								<div class="row ">
+									<div class="well-sm col-sm-8 col-lg-offset-2 form-group">
+										<label> Email: </label> 
+										<input id="_email" name="_email" type="text" class="_email form-control"/>
+									</div>
 								</div>
-							</div>
-						 </div>
-					      </div>
-					      <div class="modal-footer">
-					        <button id="emailModal_btn_send" class="btn btn-success" data-dismiss="modal">Enviar</button>
-					      	<button class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					      </div>
+							 </div>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="submit" id="emailModal_btn_send" class="btn btn-success">Enviar</button>
+						      	<button class="btn btn-default" data-dismiss="modal"> Cancelar</button>
+						      </div>
+					      </form>
 				    </div>
 				  </div>
 				</div>
@@ -175,64 +177,29 @@
 				<tbody>
 						<tr th:each="customer : ${customers}">
 							<td class="aw-table-checkbox"><input type="checkbox" class="checkBox" name="checkBox[]" th:value="${customer.id}"/></td>
-							<td th:text="${customer.code}">Codigo</td>
-							<td th:text="${customer.name}">Nome</td>
-							<td th:text="|85 ${customer.phone}|">Telefone</td>
-							<td th:text="${customer.note}">Descrição</td>
-							<td th:text="${customer.status.desc}">Status</td>
+							<td class="text-center" th:text="${customer.code}">Codigo</td>
+							<td class="text-center" th:text="${customer.name}">Nome</td>
+							<td class="text-center" th:text="|85 ${customer.phone}|">Telefone</td>
+							<td class="text-center" th:text="${customer.note}">Descrição</td>
+							<td class="text-center" th:text="${customer.status.desc}"> Status</td>
+							
 							<td class="table-pesq-produto-col-acoes">
 								<div class="btn-group">
 									<a th:href="@{'/customer/{id}'(id=${customer.id})}"	class="btn  btn-default btn-xs"> 
 										<i class="fa fa-lg  fa-pencil"> </i> Editar
 									</a>
-									<button type="button"
+									<!-- 
+									<a th:href="@{'/sale/{id}'(id=${customer.id})}"	class="btn  btn-default btn-xs"> 
+										<i class="fa fa-lg  fa-check" style="color: #5cb85c;"> </i> Fechar venda
+									</a>
+									-->
+									 <button type="button"
 										th:onclick="'getCustomerId(\'' + ${customer.id} + '\');'"
 										class="btn-modal btn  btn-default btn-xs">
 										<i class="fa fa-lg  fa-check" style="color: #5cb85c;"> </i>
 										Fechar venda
 									</button>
-									
-									<!-- modal SALE -->
-									<div id="saleModal" class="modal fade" role="dialog">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header" style="background-color: #5cb85c;">
-													<button id="btn-close" type="button" class="close" data-dismiss="modal">&times;</button>
-													<h4 class="modal-title" style="color: white;">Confirmação de Venda</h4>
-												</div>
-												<form id="sale-form" class="sale-form">
-													<div class="modal-body">
-														<div class="form-group">
-															<div class="row well-sm">
-																<div class="col-md-8 col-lg-offset-2 form-group">
-																	<label>Nome do cliente</label> 
-																	<input id="_name" name="_name" type="text" class="_name form-control" />
-																</div>
-															</div>
-															<div class="row  well-sm">
-																<div class="col-sm-8 col-lg-offset-2 form-group">
-																	<label>Valor do plano</label> 
-																	<input id="_price" name="_price" type="text" class="_price form-control"	placeholder="R$" />
-																</div>
-															</div>
-															<div class="row well-sm">
-																<div class="col-sm-8 col-lg-offset-2 form-group">
-																	<label>Data de venda</label> 
-																	<input id="_date" name="_date" type="text" class="_date form-control" placeholder="aaaa-MM-dd" />
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="modal-footer">
-														<button id="btn-save" type="submit"	class="btn btn-success" data-dismiss="">Confirmar</button>
-														<button id="btn-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-									<!-- /modal SALE-->
-									
+									 
 									<!-- modal SALE confirmation-->
 										<div id="SaleConfirmationModal" class="modal fade" role="dialog">
 										  <div class="modal-dialog">
@@ -251,7 +218,6 @@
 										  </div>
 										</div>
 									<!-- /modal SALE confirmation-->
-								
 								</div>
 							</td>
 						</tr>

@@ -24,6 +24,7 @@ public class CustomerService {
 		customerRepository.save(customer);
 	}
 
+	@Transactional
 	public void updateCustomer(CustomObjectDTO objectWrapper){
 		Customer customerWrapper = objectWrapper.getCustomer();
 		Integer id = customerWrapper.getId();

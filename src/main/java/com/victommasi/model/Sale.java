@@ -3,7 +3,6 @@ package com.victommasi.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,12 +11,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 
 @Entity
@@ -31,15 +30,18 @@ public class Sale {
 	@OneToOne
 	private Customer customer;
 	
-	//@DateTimeFormat(pattern = "dd/MM/yyyy")
-	//@Temporal(TemporalType.DATE)
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-	private LocalDate date;
+	@NotNull(message = "Data da venda é obrigatória")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
+	private Date date;
 	
+	@NotNull(message = "Valor é obrigatório")
+	@DecimalMin(value = "0.01", message = "Valor não pode ser menor que 0,01")
+	@DecimalMax(value = "9999999.99", message = "Valor não pode ser maior que 9.999.999,99")
+	@NumberFormat(pattern = "#,##0.00")
 	private BigDecimal price;
 	
 	public Sale(){}
-	
 	
 
 	public Integer getId() {
@@ -58,11 +60,11 @@ public class Sale {
 		this.customer = customer;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
@@ -74,14 +76,6 @@ public class Sale {
 		this.price = price;
 	}
 	
-	/*public Agent getAgent() {
-		return agent;
-	}
-
-	public void setAgent(Agent agent) {
-		this.agent = agent;
-	}*/
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

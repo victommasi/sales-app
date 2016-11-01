@@ -41,7 +41,7 @@ var showChart = function(yea){
 		});
 	 	$("#totalLabel").html("<h4> Faturamento de " + yea + " </h4>");
 	 	$("#averageLabel").html("<h4> Média mensal de " + yea + "</h4>");
-	 	$.get("/sale/" + yea, function (result) {
+	 	$.get("/sale/year/" + yea, function (result) {
 	 		$("#totalValue").html("<h5> R$ " + result + " </h5>");
 	 		$("#averageValue").html("<h5> R$ " + parseFloat((result/12).toFixed(2)) + " </h5>");
 	 	});

@@ -16,6 +16,7 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/jquery-ui.css}"/>
 	<!-- <link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/jquery.datatables.min.css}"/> 
 	-->
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/bootstrap-datepicker.standalone.min.css}"/>
 	
 	
 </head>
@@ -116,10 +117,14 @@
 <script th:src="@{/layout/vendors/jquery/jquery.validate.min.js}"></script>
 <script th:src="@{/layout/vendors/jquery/jquery.canvasjs.min.js}"></script>
 <script th:src="@{/layout/vendors/jquery/jquery.datatables.min.js}"></script>
+<script th:src="@{/layout/vendors/bootstrap/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/layout/vendors/bootstrap/bootstrap-datepicker.pt-BR.min.js}"></script>
 <script th:src="@{/layout/vendors/bootstrap/datatables.bootstrap.min.js}"></script>
+<script th:src="@{/layout/vendors/jquery/jquery.maskMoney.min.js}"></script>
 
 <th:block layout:fragment="modalscript"></th:block>
 <th:block layout:fragment="chartscript"></th:block>
+<th:block layout:fragment="extrascript"></th:block>
 
 </body>
 </html>

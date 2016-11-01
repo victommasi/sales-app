@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,31 +61,24 @@ public class SaleController {
 		return new ResponseEntity<>(saleRepository.checkSaleByCustomerId(id), HttpStatus.OK);
 	}
 	
-	/*
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ModelAndView createSale(@PathVariable Integer id, Sale sale) {
+	@RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
+	public ModelAndView createSale(@PathVariable("customerId") Customer customer, Sale sale) {
 		ModelAndView mv = new ModelAndView("/sale/sale_creation");
-		mv.addObject("customer", customerRepository.findOne(id));
+		mv.addObject("customer", customer);
 		return mv;
 	}
 	
-	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ModelAndView createSale(CustomObjectDTO customObjectDto) {
-		//saleService.saveSale(customObjectDto);
-		//System.out.println(sale);
-		//System.out.println(customer);
-		System.out.println(customObjectDto);
+	public ModelAndView createSale(Customer customer, @Valid Sale sale, 
+													BindingResult errors, 
+													RedirectAttributes attributes) {
+		if (errors.hasErrors()) {
+			return createSale(customer, sale);
+		}
+		attributes.addFlashAttribute("message", "Venda salva com sucesso!");
+		saleService.saveSale(new CustomObjectDTO(customer, sale));
 		return new ModelAndView("redirect:/sale");
-	}
-	*/
-	
-	@ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public ModelAndView createSale(@RequestBody CustomObjectDTO customObjectDto) {
-		saleService.saveSale(customObjectDto);
-		return new ModelAndView("redirect:/customer");
 	}
 	
 	@RequestMapping(value ="/{id}", method = RequestMethod.DELETE)
@@ -99,7 +95,7 @@ public class SaleController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/{year}")
+	@RequestMapping("/year/{year}")
 	public ResponseEntity<?> getSaleBalanceByYear(@PathVariable("year") Integer year){
 		return new ResponseEntity<>(saleService.getYearBalance(year), HttpStatus.OK);
 	}

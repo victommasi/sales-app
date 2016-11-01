@@ -91,15 +91,15 @@
 				</thead>
 				<tbody>
 					<tr th:each="sale : ${sales}">
-						<td th:text="${sale.customer.name}"> Nome </td>
-						<td th:text="|85 ${sale.customer.phone}|"> Telefone </td>
-						<td th:text="${sale.date}"> Data </td>
-						<td th:text="${sale.price}"> Valor </td>
+						<td class="text-center" th:text="${sale.customer.name}"> Nome </td>
+						<td class="text-center" th:text="|85 ${sale.customer.phone}|"> Telefone </td>
+						<td class="text-center" th:text="${{sale.date}}"> Data </td>
+						<td class="text-right" th:text="|R$ ${{sale.price}}|"> Valor </td>
 						<td class="table-pesq-produto-col-acoes">
 							<div class="btn-group">
 								<button type="button" th:onclick="'getSaleId(\'' + ${sale.id} + '\');'" class="btn-modal btn  btn-default btn-xs">
 									<i class="fa fa-lg  fa-trash" style="color:#d9534f;"> </i>
-									Excluir venda
+									Excluir
 								</button>
 								
 							</div>

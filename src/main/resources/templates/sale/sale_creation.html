@@ -22,33 +22,45 @@
 			<span th:text="${message}"></span>
 		</div>
 	
-		<form method="POST" class="form-vertical  js-form-loading" th:action="@{/sale/new}">
+		<form th:method="post" th:object="${sale}" class="form-vertical  js-form-loading" th:action="@{/sale/new}">
 			
-			<!-- <div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<th:block th:each="erro : ${#fields.detailedErrors()}">
+				<th:block th:each="error : ${#fields.detailedErrors()}">
+					<div>
+						<i class="fa  fa-exclamation-circle"></i> 
+						<span th:text="${error.message}"> </span>
+					</div>
 				</th:block>
 			</div>
-			-->
 			
-			<div class="row">
+		    <div class="row">
 				<div class="col-sm-5 form-group">
 					<label for="name">Nome</label>
-					<input id="name" type="text" th:name="name" class="form-control" th:value="${customer.name}"/>
+					<input id="name" type="text" class="form-control" th:field="${customer.name}"/>
+					<input id="name" type="hidden" class="form-control" th:field="${customer.id}"/>
+				</div>
+			</div>
+			 
+			<div class="row">
+				<div class="col-sm-4 form-group" th:classappend="${#fields.hasErrors('price')} ? has-error">
+					<label for="price">Valor*</label>
+					 <div class="input-group">
+						<span class="input-group-addon">R$</span>
+						<input id="price" type="text" class="form-control js-currency"  th:field="*{price}"/>
+					</div>
 				</div>
 			</div>
 			
 			<div class="row">
-				<div class="col-sm-4 form-group">
-					<label for="price">Valor</label>
-					<input id="price" type="text" th:name="price" class="form-control"  th:value="${sale.price}" placeholder="R$"/>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-sm-4 form-group">
-					<label for="date">Data</label>
-					<input id="date" type="text" th:name="date" class="form-control" th:value="${sale.date}" placeholder="dd/MM/yyyy"/>
+				<div class="col-sm-4 form-group" th:classappend="${#fields.hasErrors('date')} ? has-error">
+					<label for="date">Data*</label>
+					<div class="input-group">
+					<span class="input-group-addon fa fa-calendar"></span>
+						<input id="date" type="text" class="form-control" th:field="*{date}"					
+							data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+							data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="bottom"/>
+					</div>
 				</div>
 			</div>
 			
@@ -60,5 +72,8 @@
 	</div>
 
 </section>
+<th:block layout:fragment="extrascript">
+	<script th:src="@{/layout/javascripts/sale-creation.js}"></script>
+</th:block>
 </body>
 </html>

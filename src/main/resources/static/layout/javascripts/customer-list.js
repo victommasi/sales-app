@@ -10,36 +10,6 @@ function addCsrfToken(xhr){
 	xhr.setRequestHeader(header, token);
 }
 
-function openSaleModal(){
-	var id = customerId;
-	//clear form/modal
-	$("#sale-form").validate().resetForm();
-    $('#_name').closest('.form-group').removeClass('has-error');
-	$('#_price').closest('.form-group').removeClass('has-error');
-	$('#_date').closest('.form-group').removeClass('has-error');
-	
-	$("#_date").datepicker({
-	    dateFormat: 'yy-mm-dd',
-	    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-	    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-	    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-	    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-	    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-	    nextText: 'Próximo',
-	    prevText: 'Anterior'
-	});
-	
-	$.get("/customer/name/" + id, function (result) {
-		$("#_name").val(result);
-		$("#_price").val("");
-		$("#_date").val("");
-		$("#saleModal").modal();
-		$("#saleModal").on("shown.bs.modal", function () {
-		
-		});
-	});
-}
-
 $(document).ready(function() {
 	
 	$('#table-customers').DataTable({
@@ -65,80 +35,79 @@ $(document).ready(function() {
 	              "sNext":     "Seguinte",
 	              "sLast":     "Último"
 	          }
-	    },
-		"initComplete": function () {
-            $(document).on("click", ".btn-modal", (function(){
-            	var id = customerId;
-            	$.get("/sale/find/" + id, function (result) {
-            	    	if (result) {
-            	    		$("#SaleConfirmationModal").modal();
-            	    	}
-            	    	else {
-            	    		openSaleModal();
-            	    	}
-            	});
-            	$("#btn-new").click(function(){
-            		openSaleModal();
-            	});
-            }));
-		}
+	    }
 	});
 });
 
-$('.sale-form').validate({
+$("#selectAll").click(function(){
+	$('input:checkbox').prop('checked', this.checked);
+});
+
+$(document).on("click", ".btn-modal", (function(){
+	var id = customerId;
+	$.get("/sale/find/" + id, function (result) {
+	    	if (result) {
+	    		$("#SaleConfirmationModal").modal();
+	    	}
+	    	else {
+	    		window.location.href = "/sale/"+ id;
+	    	}
+	});
+}));
+
+$("#btn-newSale").click(function(){
+	var id = customerId;
+	$("#btn-newSale").prop("disabled", false);
+	$("#SaleConfirmationModal").modal('toggle');
+	$("#SaleConfirmationModal").on("hidden.bs.modal", function () {
+		window.location.href = "/sale/"+ id;
+	});
+});
+
+
+$('#email-form').validate({
 	rules: {
-		_name: {
-			required: true
-		},
-		_price: {
+		_email: {
 			required: true,
-			number: true
-		},
-		_date: {
-			required: true,
-			date: true
+			email: true
 		}
 	},
 	messages: {
-		_name: "O nome é obrigatório",
-		_price: "O valor é obrigatório",
-		_date: "A data é obrigatória"
+		_email: {
+            required: "Email é obrigatório.",
+            email: "Insira um email válido."
+        },
 	},
 	submitHandler: function (form) {
-		var name = $('._name').val();
-		var price = $('._price').val();
-		var date = $('._date').val();
-		var id = customerId;
+		var ids = [];
+		var email = $("#_email").val();
+		$('#emailModal').modal('toggle');
 		
-		$("#btn-save").prop("disabled", true);
+		$("input[name='checkBox[]']:checked").each(function () {
+			ids.push(parseInt($(this).val()));
+		});
 		
 		var data = {
-				sale : {
-					price: price,
-					date: date
-				},
-				customer : {
-					id: id,
-					name: name
-				}
-		};
+				ids : ids,
+				email : email
+		};		
+		
 		var json = JSON.stringify(data);
 		
+		
 		$.ajax({
-			url: "/sale/new",
-			type: "POST",
+			url: "/email",
+			type: "post",
 			contentType: "application/json; charset=utf-8",
+			beforeSend:	addCsrfToken,
 			data: json,
-			beforeSend: addCsrfToken,
-			success: function (results) {
-				$("#btn-save").prop("disabled", false);
-				$("#saleModal").modal('toggle');
-				$("#saleModal").on("hidden.bs.modal", function () {
+			success: function(data) {
+				$("#emailConfirmationModal").modal();
+				$("#emailConfirmationModal").on("hidden.bs.modal", function () {
 					location.reload();
 				});
 			}
-		})
-		return false; // required to block normal submit since you used ajax
+		});
 	},
 	highlight: function(element) {
 		$(element).closest('.form-group').addClass('has-error');
@@ -155,41 +124,12 @@ $('.sale-form').validate({
 			error.insertAfter(element);
 		}
 	}
-	
 });
 
-$("#selectAll").click(function(){
-	$('input:checkbox').prop('checked', this.checked);
-});
-
-$("#emailModal_btn_send").click(function() {
-	var ids = [];
-	var email = $("#emailModal_email").val();
-	
-	$("input[name='checkBox[]']:checked").each(function () {
-		ids.push(parseInt($(this).val()));
-	});
-	
-	var data = {
-			ids : ids,
-			email : email
-	};		
-	
-	var json = JSON.stringify(data);
-	
-	$.ajax({
-		url: "/email",
-		type: "post",
-		contentType: "application/json; charset=utf-8",
-		beforeSend: addCsrfToken,
-		data: json,
-		success: function(data) {
-			$("#emailConfirmationModal").modal();
-			$("#emailConfirmationModal").on("hidden.bs.modal", function () {
-				location.reload();
-			});
-		}
-	});
+$("#emailModal").on("hidden.bs.modal", function () {
+	$("#email-form").validate().resetForm();
+	$("#_email").val("");
+	$('#_email').closest('.form-group').removeClass('has-error');
 });
 
 $("#deleteModal_btn_delete").click(function() {

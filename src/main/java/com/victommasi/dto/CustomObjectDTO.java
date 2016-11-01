@@ -8,6 +8,13 @@ public class CustomObjectDTO {
 	private Sale sale;
 	private Customer customer;
 	
+	public CustomObjectDTO(){}
+	
+	public CustomObjectDTO(Customer customer, Sale sale){
+		this.customer = customer;
+		this.sale = sale;
+	} 
+	
 	public Sale getSale() {
 		return sale;
 	}
