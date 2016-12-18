@@ -9,11 +9,11 @@ import com.victommasi.model.Customer;
 @Repository
 public interface CustomerRepositoryCustom {
 
-	public List<Customer> findByStatusNegociating();
+	List<Customer> findByStatusNegociating();
 	
-	public List<Customer> findByStatusAccepted();
+	List<Customer> findByStatusAccepted();
 	
-	public List<Customer> findByStatusRefused();
+	List<Customer> findByStatusRefused();
 	
-	public List<Customer> findByNameOrPhone(Customer customer);
+	List<Customer> findByNameOrPhone(Customer customer);
 }

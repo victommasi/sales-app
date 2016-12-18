@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.victommasi.exception.ImpossibleDeleteCustomerException;
 import com.victommasi.model.Customer;
 import com.victommasi.model.Status;
 import com.victommasi.repository.CustomerRepository;

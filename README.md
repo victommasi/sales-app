@@ -1,4 +1,4 @@
-# sales-app
+# SALES-APP
 Sale management system (SpringBoot, SpringMvc, SpringSecurity, SpringDataJPA, Hibernate, Thymeleaf/jQuery,  Maven)
 
 
@@ -8,17 +8,35 @@ I used my development skills to make things easy for her and people who work wit
 
 Backend is Java 8 with Spring framework, frontend is jQuery, Thymeleaf and Bootstrap and the data is stored in a MySql database.
 
-DEMO: http://victommasi.tk/salesmanager
+[DEMO ON AMAZON AWS EC2](http://victommasi.tk/salesmanager)
 
-# USAGE:
-After downloading or cloning the project, create an application.properties file on src/main/resources folder. An example context could be:
+### USAGE:
+1. After downloading or cloning the project,
+2. create an application.properties file on src/main/resources folder.
+3. An example context could be:
 
-  spring.datasource.url=jdbc:mysql://localhost/salesmanager
-  spring.datasource.username=root
-  spring.datasource.password=root
-  spring.datasource.testWhileIdle = true
-  spring.jpa.database=MYSQL
-  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-  spring.jpa.hibernate.ddl-auto=update
-  email and login requirements
-  [...]
+```sh
+#MySQL properties
+spring.datasource.url=jdbc:mysql://localhost/sales?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.testWhileIdle = true
+spring.datasource.validationQuery = SELECT 1
+
+#Hibernate properties
+spring.jpa.database=MYSQL
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+spring.jpa.show-sql=true 
+spring.jpa.hibernate.ddl-auto=update
+hibernate.c3p0.validate=false
+hibernate.c3p0.idle_test_period=30
+hibernate.c3p0.automaticTestTable=conTestTable	
+
+spring.mvc.view.suffix=.html
+
+#Email properties
+login=example		
+password=example		
+emailUser=example@example.com		
+emailPassword=example
+```

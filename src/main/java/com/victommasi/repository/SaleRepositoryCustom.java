@@ -6,9 +6,13 @@ import com.victommasi.model.Sale;
 
 public interface SaleRepositoryCustom {
 	
-	public List<Sale> findSaleByNameOrPhone(Sale sale);
-	public boolean checkSaleByCustomerId(Integer id);
-	public List<Sale> findSalesByYear(Integer year);
-	public List<Sale> findSalesByMonthAndYear(Integer year, Integer month);
-	public List<Sale> findSaleByCustomerId(Integer customerId);
+	List<Sale> findSaleByNameOrPhone(Sale sale);
+	
+	boolean checkSaleByCustomerId(Integer id);
+	
+	List<Sale> findSalesByYear(Integer year);
+	
+	List<Sale> findSalesByMonthAndYear(Integer year, Integer month);
+	
+	List<Sale> findSaleByCustomerId(Integer customerId);
 }
