@@ -1,5 +1,13 @@
 # SALES-APP
-Sale management system (SpringBoot, SpringMvc, SpringSecurity, SpringDataJPA, Hibernate, Thymeleaf/jQuery,  Maven)
+Sale management system. 
+* SpringBoot
+* SpringMvc
+* SpringSecurity
+* SpringDataJPA
+* Hibernate
+* Thymeleaf/jQuery
+* Maven
+* MySQL
 
 
 This application was resquested by a customer. She used to have a Google Sheet to manage her sales, but we decided to migrate her sheet to a better application adding some new features to it, like email reports and balance chart.
