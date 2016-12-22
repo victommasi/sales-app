@@ -1,23 +1,22 @@
 package com.victommasi.model;
 
+import java.math.BigDecimal;
+
 public class Balance {
 
-	private float total;
-	private float average;
-
-	public float getTotal() {
+	private BigDecimal total;
+	private BigDecimal average;
+	
+	public BigDecimal getTotal() {
 		return total;
 	}
-
-	public void setTotal(float total) {
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
-
-	public float getAverage() {
+	public BigDecimal getAverage() {
 		return average;
 	}
-
-	public void setAverage(float average) {
+	public void setAverage(BigDecimal average) {
 		this.average = average;
 	}
 }

@@ -38,10 +38,11 @@ public class DatapointService {
 		populateMap();
 		
 		//each month of year has its value
-		for (int i = 1; i <= 12; i++){
-			datapoints.add(new Datapoint(monthMap.get(i),
-							   i, 
-							   saleService.getMonthBalance(year, i)));
+		for (int month = 1; month <= 12; month++){
+			datapoints.add(new Datapoint(
+							   monthMap.get(month),
+							   month, 
+							   saleService.getMonthBalance(year, month)));
 		}
 		return datapoints;
 	}

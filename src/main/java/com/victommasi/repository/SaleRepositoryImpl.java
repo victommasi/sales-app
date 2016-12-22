@@ -1,10 +1,11 @@
 package com.victommasi.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
- 
+
 import org.springframework.stereotype.Repository;
 
 import com.victommasi.model.Sale;
@@ -38,25 +39,53 @@ public class SaleRepositoryImpl implements SaleRepositoryCustom {
 		 }
 		return true;
 	}
-
+	
 	@Override
-	public List<Sale> findSalesByYear(Integer year) {
-		String jpql = "SELECT s FROM Sale s WHERE YEAR(date) = :year";
-		List<Sale> list = manager.createQuery(jpql, Sale.class)
+	public BigDecimal sumSalesByYear(Integer year) {
+		String jpql = "SELECT SUM(s.price) FROM Sale s WHERE YEAR(date) = :year";
+		BigDecimal query = manager.createQuery(jpql, BigDecimal.class)
 			   .setParameter("year", year)
-			   .getResultList();
-		return list;
+			   .getSingleResult();
+		if(query == null){
+			return new BigDecimal("0");
+		}
+		return query;
 	}
 	
 	@Override
-	public List<Sale> findSalesByMonthAndYear(Integer year, Integer month) {
-		String jpql = "SELECT s FROM Sale s WHERE MONTH(date) = :month "
-					+ "and YEAR(date) = :year";
-		List<Sale> list = manager.createQuery(jpql, Sale.class)
+	public BigDecimal sumSalesByMonthAndYear(Integer year, Integer month) {
+		String jpql = "SELECT SUM(s.price) FROM Sale s WHERE MONTH(date) = :month"
+				    + " and YEAR(date) = :year";
+		BigDecimal query = manager.createQuery(jpql, BigDecimal.class)
 			   .setParameter("month", month)
 			   .setParameter("year", year)
-			   .getResultList();
-		return list;
+			   .getSingleResult();
+		if(query == null){
+			return new BigDecimal("0");
+		}
+		return query;
+	}
+	
+	@Override
+	public BigDecimal sumSales(){
+		String jpql = "SELECT SUM(s.price) FROM Sale s";
+		BigDecimal query = manager.createQuery(jpql, BigDecimal.class)
+			   .getSingleResult();
+		if(query == null){
+			return new BigDecimal("0");
+		}
+		return query;
+	}
+	
+	@Override
+	public BigDecimal avgSales(){
+		String jpql = "SELECT AVG(s.price) FROM Sale s";
+		Double query = manager.createQuery(jpql, Double.class)
+			   .getSingleResult();
+		if(query == null){
+			return new BigDecimal("0");
+		}
+		return new BigDecimal(query.toString()).setScale(2, BigDecimal.ROUND_UP);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.victommasi.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,38 +34,17 @@ public class SaleService {
 		saleRepository.delete(id);
 	}
 
-	public float getMonthBalance(Integer year, Integer month){
-		List<Sale> sales = saleRepository.findSalesByMonthAndYear(year, month);
-		float sum = 0;
-		for(Sale s : sales){
-			sum = sum + s.getPrice().floatValue();
-		}
-		return sum;
+	public BigDecimal getMonthBalance(Integer year, Integer month){
+		return saleRepository.sumSalesByMonthAndYear(year, month);
 	}
 	
-	public float getYearBalance(Integer year){
-		List<Sale> sales = saleRepository.findSalesByYear(year);
-		float sum = 0;
-		for(Sale s : sales){
-			sum = sum + s.getPrice().floatValue();
-		}
-		return sum;
+	public BigDecimal getYearBalance(Integer year){
+		return saleRepository.sumSalesByYear(year);
 	}
-
+	
 	public Balance getTotalBalance(Balance balance) {
-		float sum = 0;
-		
-		List<Sale> sales = saleRepository.findAll();
-		for(Sale s : sales){
-			sum = sum + s.getPrice().floatValue();
-		}
-		
-		balance.setTotal(sum);
-		if (sales.size() == 0) {
-			balance.setAverage(sum);
-			return balance;
-		}
-		balance.setAverage(sum / sales.size());
+		balance.setTotal(saleRepository.sumSales());
+		balance.setAverage(saleRepository.avgSales());
 		return balance;
 	}
 
@@ -72,8 +52,7 @@ public class SaleService {
 		if (saleRepository.checkSaleByCustomerId(id)) {
 			List<Sale> sales  = saleRepository.findSaleByCustomerId(id);
 				for(Sale s : sales){
-					int saleId = s.getId();
-					this.deleteSale(saleId);
+					this.deleteSale(s.getId());
 				}
 		}
 	}

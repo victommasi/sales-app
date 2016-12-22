@@ -10,6 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,19 @@ import com.victommasi.repository.CustomerRepository;
 public class EmailService {
 	
 	@Value("${emailUser}")
-	String username;
+	private static String username;
 	
 	@Value("${emailPassword}")
-    String password;
+    private static String password;
 
 	@Autowired
 	CustomerRepository customerRepository;
 	
+	private static final Logger LOGGER = Logger.getLogger(EmailService.class);
+	
 	private String setEmailContent(EmailDTO emailDto) {
-		Integer[] ids = emailDto.getIds();
 		StringBuffer content = new StringBuffer();
+		Integer[] ids = emailDto.getIds();
 		int cont = 1;
 		
 		content.append("CLIENTES PENDENTES:");
@@ -75,9 +78,10 @@ public class EmailService {
         	 msg.setSubject("Clientes pendentes - JEVI");
         	 msg.setText(emailContent);
              Transport.send(msg);
+             LOGGER.info("Email sent sucessfully!");
         }
         catch (MessagingException ex) {
-             System.err.println(ex.getMessage());
+        	 LOGGER.error("Error sending email: ", ex);
         }
 	}
 }

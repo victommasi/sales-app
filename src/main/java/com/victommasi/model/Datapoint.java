@@ -1,17 +1,19 @@
 package com.victommasi.model;
 
+import java.math.BigDecimal;
+
 public class Datapoint {
 	
 	private String label;
 	
-	private float x;
+	private Integer x;
 	
-	private float y;
+	private BigDecimal y;
 	
 	
 	public Datapoint(){}
 	
-	public Datapoint(String label, float x, float y){
+	public Datapoint(String label, Integer x, BigDecimal y){
 		this.label = label;
 		this.x = x;
 		this.y = y;
@@ -25,19 +27,20 @@ public class Datapoint {
 		this.label = label;
 	}
 
-	public float getX() {
+	public Integer getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(Integer x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public BigDecimal getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(BigDecimal y) {
 		this.y = y;
 	}
+
 }

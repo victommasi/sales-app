@@ -1,5 +1,6 @@
 package com.victommasi.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.victommasi.model.Sale;
@@ -10,9 +11,13 @@ public interface SaleRepositoryCustom {
 	
 	boolean checkSaleByCustomerId(Integer id);
 	
-	List<Sale> findSalesByYear(Integer year);
+	BigDecimal sumSalesByYear(Integer year);
 	
-	List<Sale> findSalesByMonthAndYear(Integer year, Integer month);
-	
+	BigDecimal sumSalesByMonthAndYear(Integer year, Integer month);
+
 	List<Sale> findSaleByCustomerId(Integer customerId);
+
+	BigDecimal sumSales();
+
+	BigDecimal avgSales();
 }
